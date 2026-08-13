@@ -1,8 +1,23 @@
 ---
 import "../styles/global.css";
-const { title, description, lang = "tr" } = Astro.props;
-const other = lang === "tr" ? "en" : "tr";
+
+interface Props {
+  title: string;
+  description?: string;
+  lang?: "tr" | "en";
+  /** Where each language button should go. Defaults to the two index pages,
+      so an article can hand over the URL of its own translation instead. */
+  hrefs?: { tr: string; en: string };
+}
+
+const {
+  title,
+  description,
+  lang = "tr",
+  hrefs = { tr: "/tr/", en: "/en/" },
+} = Astro.props;
 ---
+
 <!doctype html>
 <html lang={lang}>
   <head>
@@ -13,14 +28,16 @@ const other = lang === "tr" ? "en" : "tr";
     <meta property="og:title" content={title} />
     {description && <meta property="og:description" content={description} />}
     <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
+    <link rel="alternate" hreflang="tr" href={new URL(hrefs.tr, Astro.site)} />
+    <link rel="alternate" hreflang="en" href={new URL(hrefs.en, Astro.site)} />
   </head>
   <body>
     <div class="bar">
       <div class="bar-in">
         <a class="brand" href={`/${lang}/`}>Onur Oran</a>
         <nav class="langs">
-          <a href="/tr/" aria-current={lang === "tr" ? "true" : undefined}>TR</a>
-          <a href="/en/" aria-current={lang === "en" ? "true" : undefined}>EN</a>
+          <a href={hrefs.tr} aria-current={lang === "tr" ? "true" : undefined}>TR</a>
+          <a href={hrefs.en} aria-current={lang === "en" ? "true" : undefined}>EN</a>
         </nav>
       </div>
     </div>

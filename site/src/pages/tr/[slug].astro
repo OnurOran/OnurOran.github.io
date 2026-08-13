@@ -7,17 +7,31 @@ export async function getStaticPaths() {
   return posts.map((p) => ({ params: { slug: p.id }, props: { post: p } }));
 }
 
-const lang = "tr";
-const other = "en";
 const { post } = Astro.props;
 const { Content } = await render(post);
-const twin = await getEntry(other, post.data.translationKey);
-const label = lang === "tr" ? "Bu yazının İngilizcesi:" : "Türkçe version:";
-const fmt = post.data.pubDate.toLocaleDateString(lang === "tr" ? "tr-TR" : "en-GB", {
-  year: "numeric", month: "long", day: "numeric",
+
+// the English twin, if this article has been translated
+const twin = await getEntry("en", post.data.translationKey);
+
+// language buttons follow the article, not the site root
+const hrefs = {
+  tr: `/tr/${post.id}/`,
+  en: twin ? `/en/${twin.id}/` : "/en/",
+};
+
+const fmt = post.data.pubDate.toLocaleDateString("tr-TR", {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
 });
 ---
-<Base title={post.data.title} description={post.data.description} lang={lang}>
+
+<Base
+  title={post.data.title}
+  description={post.data.description}
+  lang="tr"
+  hrefs={hrefs}
+>
   <header class="masthead">
     <span class="stamp">{fmt}</span>
     <h1>{post.data.title}</h1>
@@ -27,7 +41,7 @@ const fmt = post.data.pubDate.toLocaleDateString(lang === "tr" ? "tr-TR" : "en-G
     <Content />
     {twin && (
       <p class="translated">
-        {label} <a href={`/${other}/${twin.id}/`}>{twin.data.title}</a>
+        Bu yazının İngilizcesi: <a href={`/en/${twin.id}/`}>{twin.data.title}</a>
       </p>
     )}
   </article>
