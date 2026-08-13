@@ -8,6 +8,10 @@ export default defineConfig({
     routing: { prefixDefaultLocale: true },
   },
   markdown: {
-    shikiConfig: { theme: "github-light", wrap: false },
+    // dual themes: Shiki emits both palettes as CSS variables, the stylesheet picks one
+    shikiConfig: {
+      themes: { light: "github-light", dark: "github-dark" },
+      wrap: false,
+    },
   },
 });
