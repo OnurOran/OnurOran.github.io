@@ -4,10 +4,12 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "new": "node scripts/new-post.mjs",
     "sync": "node scripts/sync-posts.mjs",
     "dev": "npm run sync && astro dev",
     "build": "npm run sync && astro build",
-    "preview": "astro preview"
+    "preview": "astro preview",
+    "check": "npm run sync && astro check"
   },
   "dependencies": {
     "@astrojs/rss": "4.0.19",
