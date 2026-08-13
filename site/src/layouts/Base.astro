@@ -27,7 +27,14 @@ const {
     {description && <meta name="description" content={description} />}
     <meta property="og:title" content={title} />
     {description && <meta property="og:description" content={description} />}
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title={lang === "tr" ? "Onur Oran — Yazılar" : "Onur Oran — Writing"}
+      href={`/${lang}/rss.xml`}
+    />
     <link rel="alternate" hreflang="tr" href={new URL(hrefs.tr, Astro.site)} />
     <link rel="alternate" hreflang="en" href={new URL(hrefs.en, Astro.site)} />
   </head>
