@@ -1,0 +1,34 @@
+---
+import { getCollection, getEntry, render } from "astro:content";
+import Base from "../../layouts/Base.astro";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("en");
+  return posts.map((p) => ({ params: { slug: p.id }, props: { post: p } }));
+}
+
+const lang = "en";
+const other = "tr";
+const { post } = Astro.props;
+const { Content } = await render(post);
+const twin = await getEntry(other, post.data.translationKey);
+const label = lang === "tr" ? "Bu yazının İngilizcesi:" : "Türkçe version:";
+const fmt = post.data.pubDate.toLocaleDateString(lang === "tr" ? "tr-TR" : "en-GB", {
+  year: "numeric", month: "long", day: "numeric",
+});
+---
+<Base title={post.data.title} description={post.data.description} lang={lang}>
+  <header class="masthead">
+    <span class="stamp">{fmt}</span>
+    <h1>{post.data.title}</h1>
+    <p class="dek">{post.data.description}</p>
+  </header>
+  <article>
+    <Content />
+    {twin && (
+      <p class="translated">
+        {label} <a href={`/${other}/${twin.id}/`}>{twin.data.title}</a>
+      </p>
+    )}
+  </article>
+</Base>

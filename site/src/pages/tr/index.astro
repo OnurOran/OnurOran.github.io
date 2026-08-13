@@ -1,0 +1,33 @@
+---
+import { getCollection } from "astro:content";
+import Base from "../../layouts/Base.astro";
+
+const lang = "tr";
+const posts = (await getCollection(lang)).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+const t = {
+  tr: {
+    title: "Onur Oran — Yazılar",
+    lede: "Denediğim teknolojiler hakkında yazıyorum. Kurmadığım bir şey hakkında yazmamaya çalışıyorum; işe yarayan kadar işe yaramayanı da anlatmaya çalışıyorum.",
+  },
+  en: {
+    title: "Onur Oran — Writing",
+    lede: "I write about technologies I have actually installed and run. I try not to write about anything I haven't, and to say what didn't work alongside what did.",
+  },
+}[lang];
+const fmt = (d) =>
+  d.toLocaleDateString(lang === "tr" ? "tr-TR" : "en-GB", { year: "numeric", month: "long" });
+---
+<Base title={t.title} description={t.lede} lang={lang}>
+  <p class="lede">{t.lede}</p>
+  <ul class="posts">
+    {posts.map((p) => (
+      <li>
+        <span class="stamp">{fmt(p.data.pubDate)}</span>
+        <h2><a href={`/${lang}/${p.id}/`}>{p.data.title}</a></h2>
+        <p>{p.data.description}</p>
+      </li>
+    ))}
+  </ul>
+</Base>

@@ -1,0 +1,19 @@
+# build output and deps
+site/node_modules/
+site/dist/
+site/.astro/
+site/src/content/en/
+site/src/content/tr/
+site/public/images/
+
+# internal working notes — not for the public repo
+VOICE.md
+README.md
+PUBLISHED.md
+posts/*/IMAGES.md
+posts/*/PUBLISHED.md
+posts/*/research.md
+posts/*/review.html
+posts/*/linkedin-*.md
+posts/*/_superseded/
+.claude/

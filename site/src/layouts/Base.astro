@@ -1,0 +1,36 @@
+---
+import "../styles/global.css";
+const { title, description, lang = "tr" } = Astro.props;
+const other = lang === "tr" ? "en" : "tr";
+---
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>{title}</title>
+    {description && <meta name="description" content={description} />}
+    <meta property="og:title" content={title} />
+    {description && <meta property="og:description" content={description} />}
+    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
+  </head>
+  <body>
+    <div class="bar">
+      <div class="bar-in">
+        <a class="brand" href={`/${lang}/`}>Onur Oran</a>
+        <nav class="langs">
+          <a href="/tr/" aria-current={lang === "tr" ? "true" : undefined}>TR</a>
+          <a href="/en/" aria-current={lang === "en" ? "true" : undefined}>EN</a>
+        </nav>
+      </div>
+    </div>
+    <div class="wrap">
+      <slot />
+      <footer class="site">
+        {lang === "tr"
+          ? "Yazılım mühendisi, İstanbul. Denediğim şeyler hakkında yazıyorum."
+          : "Software engineer, Istanbul. I write about things I have actually run."}
+      </footer>
+    </div>
+  </body>
+</html>
