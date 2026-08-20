@@ -22,7 +22,7 @@ WebAssembly is a compilation target. It is not a language.
 
 You write Rust, C, C++, Go or C#, and you compile *to* it, the same way you compile to x86 or ARM. The output is a `.wasm` module: a small binary that any compliant runtime can execute, on any CPU, on any operating system.
 
-It is a W3C standard. The current specification is version 3.0, published on 17 September 2025.
+WebAssembly is a W3C standard. Version 3.0 was completed on 17 September 2025.
 
 It started in browsers, as a way to run code faster than JavaScript could. That part is old news. The interesting part is that it left the browser.
 
@@ -38,7 +38,7 @@ A module that can only compute is safe and useless. To do real work it needs to 
 
 That interface is WASI, the WebAssembly System Interface.
 
-**WASI 0.3 shipped on 11 June 2026**, two months before I wrote this. It is the release that added native async. `async func`, `stream<T>` and `future<T>` became primitives of the Canonical ABI, and the old `wasi:io` package was removed.
+**WASI 0.3 shipped on 11 June 2026**, two months before I wrote this. It is the release that added native async. `async func`, `stream<T>` and `future<T>` became primitives of the Canonical ABI, and the work `wasi:io` used to do in WASI 0.2 moved into the ABI itself.
 
 The mechanical change is that scheduling moved out of the component and into the runtime. It uses completion-based semantics, closer to Linux `io_uring` than to readiness polling. The announcement describes what it replaces as the "three-step `start-foo` / `finish-foo` / `subscribe` dance from WASI 0.2".
 
@@ -181,7 +181,7 @@ $ dotnet new list wasi                    → No templates found matching: 'wasi
 
 A successful install that installs nothing, and does not tell you. I am not going to guess at the cause. The [.NET 10 preview issues around this path](https://github.com/dotnet/runtime/issues/117848) suggest it has been rough for a while, but I cannot say it is the same bug.
 
-Notice something about my own example, too. The program back in the sandbox section is in Rust, and that is not a preference. WASI 0.3 async works in Rust and nowhere else yet. Any other language and the demo could not show the thing this article is about.
+Notice something about my own example, too. The program back in the sandbox section is in Rust, and that is not a preference. WASI 0.3 async works in Rust today; every other toolchain is still in progress. Any other language and the demo could not show the thing this article is about.
 
 The example choice and the conclusion are the same fact.
 
@@ -221,6 +221,6 @@ See you in the next one.
 
 ---
 
-*Sources: [WASI 0.3 announcement](https://bytecodealliance.org/articles/WASI-0.3) · [WASI roadmap](https://wasi.dev/roadmap) · [WASI 0.3 specification](https://wasi.dev/releases/wasi-p3) · [Component Model FAQ](https://component-model.bytecodealliance.org/reference/faq.html) · [SpinKube architecture](https://www.spinkube.dev/docs/topics/architecture/) · [containerd Wasm shims](https://github.com/deislabs/containerd-wasm-shims) · [Cloudflare Workers WebAssembly](https://developers.cloudflare.com/workers/runtime-apis/webassembly/) · [Not So Fast: WebAssembly vs. Native Code](https://www.usenix.org/conference/atc19/presentation/jangda) · [Hykes, 27 March 2019](https://x.com/solomonstre/status/1111004913222324225) and [the reply the same day](https://twitter.com/solomonstre/status/1111113329647325185)*
+*Sources: [WASI 0.3 announcement](https://bytecodealliance.org/articles/WASI-0.3) · [WASI roadmap](https://wasi.dev/roadmap) · [WASI 0.3 specification](https://wasi.dev/releases/wasi-p3) · [Component Model FAQ](https://component-model.bytecodealliance.org/reference/faq.html) · [SpinKube](https://www.spinkube.dev/) · [containerd Wasm shims](https://github.com/deislabs/containerd-wasm-shims) · [Cloudflare Workers WebAssembly](https://developers.cloudflare.com/workers/runtime-apis/webassembly/) · [Not So Fast: WebAssembly vs. Native Code](https://www.usenix.org/conference/atc19/presentation/jangda) · [Hykes, 27 March 2019](https://x.com/solomonstre/status/1111004913222324225) and [the reply the same day](https://twitter.com/solomonstre/status/1111113329647325185)*
 
 *Benchmarks and command output produced on Linux 6.17 with Docker 29.7.2, wasmtime 47.0.3, rustc 1.97.1, Go 1.26.2 and .NET SDK 10.0.110 on 15 August 2026.*

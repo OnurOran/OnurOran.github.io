@@ -22,7 +22,7 @@ WebAssembly bir derleme hedefi. Dil değil.
 
 Rust, C, C++, Go ya da C# yazarsınız, ona **derlersiniz** — x86'ya veya ARM'a derlediğiniz gibi. Çıkan şey bir `.wasm` modülü: standarda uyan her runtime'ın, her işlemcide, her işletim sisteminde çalıştırabildiği küçük bir binary.
 
-W3C standardı. Güncel spec sürümü 3.0, 17 Eylül 2025'te yayımlandı.
+W3C standardı. 3.0 sürümü 17 Eylül 2025'te tamamlandı.
 
 Tarayıcıda başladı; amaç JavaScript'ten hızlı kod koşturmaktı. O kısmı eski haber. Asıl ilginç olan, tarayıcıdan çıkmış olması.
 
@@ -38,7 +38,7 @@ Sadece hesap yapabilen bir modül hem güvenlidir hem işe yaramaz. Gerçek iş 
 
 O arayüzün adı WASI: WebAssembly System Interface.
 
-**WASI 0.3, 11 Haziran 2026'da çıktı.** Yani bu yazıyı yazmamdan iki ay önce. Native async'i getiren sürüm bu: `async func`, `stream<T>` ve `future<T>` artık Canonical ABI'ın birer primitifi, eski `wasi:io` paketi de kaldırıldı.
+**WASI 0.3, 11 Haziran 2026'da çıktı.** Yani bu yazıyı yazmamdan iki ay önce. Native async'i getiren sürüm bu: `async func`, `stream<T>` ve `future<T>` artık Canonical ABI'ın birer primitifi; `wasi:io`'nun WASI 0.2'de yaptığı iş de ABI'ın kendisine taşındı.
 
 Mekanik olarak değişen şey şu: scheduling component'ten çıkıp runtime'a taşındı. Readiness polling yerine, Linux'taki `io_uring`'e yakın bir completion mantığı kullanılıyor. Duyuru, yerine geçtiği şeyi "WASI 0.2'nin üç adımlı `start-foo` / `finish-foo` / `subscribe` dansı" diye tarif ediyor.
 
@@ -181,7 +181,7 @@ $ dotnet new list wasi                    → No templates found matching: 'wasi
 
 Hiçbir şey kurmayan, üstelik bunu size söylemeyen bir "başarılı kurulum". Sebebini tahmin etmeye kalkmayacağım. [.NET 10 önizlemelerinde bu yolla ilgili açılan sorunlar](https://github.com/dotnet/runtime/issues/117848) bir süredir sıkıntılı olduğuna işaret ediyor, ama aynı bug olduğunu söyleyemem.
 
-Bir de kendi örneğime dikkat edin. Sandbox bölümündeki program Rust ile yazılmış ve bu bir tercih değil. WASI 0.3'ün async'i şu an Rust'ta çalışıyor, başka yerde çalışmıyor. Başka bir dil seçseydim, örnek bu yazının anlattığı şeyi gösteremezdi.
+Bir de kendi örneğime dikkat edin. Sandbox bölümündeki program Rust ile yazılmış ve bu bir tercih değil. WASI 0.3'ün async'i bugün Rust'ta çalışıyor; diğer toolchain'lerin hepsi hâlâ yolda. Başka bir dil seçseydim, örnek bu yazının anlattığı şeyi gösteremezdi.
 
 Yani örneğin dili ile yazının vardığı sonuç, aynı olgunun iki yüzü.
 
@@ -221,6 +221,6 @@ Gelecek yazılarda görüşmek üzere.
 
 ---
 
-*Kaynaklar: [WASI 0.3 duyurusu](https://bytecodealliance.org/articles/WASI-0.3) · [WASI yol haritası](https://wasi.dev/roadmap) · [WASI 0.3 spesifikasyonu](https://wasi.dev/releases/wasi-p3) · [Component Model SSS](https://component-model.bytecodealliance.org/reference/faq.html) · [SpinKube mimarisi](https://www.spinkube.dev/docs/topics/architecture/) · [containerd Wasm shim'leri](https://github.com/deislabs/containerd-wasm-shims) · [Cloudflare Workers WebAssembly](https://developers.cloudflare.com/workers/runtime-apis/webassembly/) · [Not So Fast: WebAssembly vs. Native Code](https://www.usenix.org/conference/atc19/presentation/jangda) · [Hykes, 27 Mart 2019](https://x.com/solomonstre/status/1111004913222324225) ve [aynı gün gelen cevabı](https://twitter.com/solomonstre/status/1111113329647325185)*
+*Kaynaklar: [WASI 0.3 duyurusu](https://bytecodealliance.org/articles/WASI-0.3) · [WASI yol haritası](https://wasi.dev/roadmap) · [WASI 0.3 spesifikasyonu](https://wasi.dev/releases/wasi-p3) · [Component Model SSS](https://component-model.bytecodealliance.org/reference/faq.html) · [SpinKube](https://www.spinkube.dev/) · [containerd Wasm shim'leri](https://github.com/deislabs/containerd-wasm-shims) · [Cloudflare Workers WebAssembly](https://developers.cloudflare.com/workers/runtime-apis/webassembly/) · [Not So Fast: WebAssembly vs. Native Code](https://www.usenix.org/conference/atc19/presentation/jangda) · [Hykes, 27 Mart 2019](https://x.com/solomonstre/status/1111004913222324225) ve [aynı gün gelen cevabı](https://twitter.com/solomonstre/status/1111113329647325185)*
 
 *Ölçümler ve komut çıktıları 15 Ağustos 2026'da Linux 6.17 üzerinde, Docker 29.7.2, wasmtime 47.0.3, rustc 1.97.1, Go 1.26.2 ve .NET SDK 10.0.110 ile alındı.*
